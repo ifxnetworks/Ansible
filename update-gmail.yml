@@ -6,7 +6,7 @@
   vars:
     gmail_username: "ifxsoc@gmail.com"
     gmail_password: "yhxm knft umiy omcf"
-    mail_recipient: "nreyes@ifxcorp.com"
+    mail_recipient: "avargasl@ifxcorp.com"
     mail_subject: "Actualización de Seguridad Completada"
 
   tasks:
