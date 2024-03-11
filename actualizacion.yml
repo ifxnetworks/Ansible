@@ -1,0 +1,23 @@
+---
+- name: Actualizar todos los sistemas y enviar notificación
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Actualizar todos los paquetes en Ubuntu
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Actualizar todos los paquetes en CentOS/RHEL 7 y 8
+      yum:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int in [7, 8]
+
+    - name: Actualizar todos los paquetes en RHEL 9
+      dnf:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 9
