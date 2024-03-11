@@ -23,7 +23,7 @@
       when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 9
 
     - name: Enviar notificación por correo electrónico después de la actualización
-      mail:
+      community.general.mail:
         host: smtp.gmail.com
         port: 587
         username: ifxsoc@gmail.com
