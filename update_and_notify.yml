@@ -1,0 +1,34 @@
+---
+- name: Actualizar todos los sistemas y enviar notificación
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Actualizar todos los paquetes en Ubuntu
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Actualizar todos los paquetes en CentOS/RHEL 7 y 8
+      yum:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int in [7, 8]
+
+    - name: Actualizar todos los paquetes en RHEL 9
+      dnf:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 9
+
+    - name: Enviar notificación por correo electrónico después de la actualización
+      mail:
+        host: smtp.ejemplo.com
+        port: 587
+        username: tu_usuario
+        password: tu_contraseña
+        to: Destinatario <destinatario@ejemplo.com>
+        subject: Actualización completada en {{ inventory_hostname }}
+        body: "La actualización ha sido completada exitosamente en {{ inventory_hostname }}."
+      delegate_to: localhost
