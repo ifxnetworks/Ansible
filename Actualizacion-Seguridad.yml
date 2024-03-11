@@ -3,10 +3,10 @@
   hosts: all
   become: yes
   tasks:
-    - name: Aplicar actualizaciones de seguridad automáticamente en Debian y Ubuntu
+    - name: Aplicar actualizaciones de seguridad automáticamente en Debian, Ubuntu y Kali Linux
       ansible.builtin.command:
         cmd: unattended-upgrade -d
-      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" or ansible_distribution == "Kali"
 
     - name: Instalar actualizaciones de seguridad en CentOS/RHEL 7
       yum:
