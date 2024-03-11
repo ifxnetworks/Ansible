@@ -3,14 +3,10 @@
   hosts: all
   become: yes
   tasks:
-    - name: Instalar actualizaciones de seguridad en Ubuntu
-      ansible.builtin.apt:
-        update_cache: yes
-        cache_valid_time: 3600
-        force_apt_get: yes
-        only_upgrade: yes
-        default_release: "{{ ansible_distribution_release }}-security"
-      when: ansible_os_family == "Debian"
+    - name: Aplicar actualizaciones de seguridad automáticamente en Ubuntu
+      ansible.builtin.command:
+        cmd: unattended-upgrade -d
+      when: ansible_distribution == "Ubuntu"
 
     - name: Instalar actualizaciones de seguridad en CentOS/RHEL 7
       yum:
