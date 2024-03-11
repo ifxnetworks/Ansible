@@ -24,11 +24,11 @@
 
     - name: Enviar notificación por correo electrónico después de la actualización
       mail:
-        host: smtp.ejemplo.com
+        host: smtp.gmail.com
         port: 587
-        username: tu_usuario
-        password: tu_contraseña
-        to: Destinatario <destinatario@ejemplo.com>
+        username: ifxsoc@gmail.com
+        password: yhxm knft umiy omcf
+        to: avargasl@ifxcorp.com
         subject: Actualización completada en {{ inventory_hostname }}
         body: "La actualización ha sido completada exitosamente en {{ inventory_hostname }}."
       delegate_to: localhost
