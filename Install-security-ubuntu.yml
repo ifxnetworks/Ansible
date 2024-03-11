@@ -1,6 +1,6 @@
 ---
 - name: Actualizar los paquetes de seguridad en Ubuntu
-  hosts: tus_hosts_ubuntu
+  hosts: Maquinas_Ubuntu
   become: yes  # Ejecuta las tareas como root
 
   tasks:
