@@ -6,7 +6,7 @@
     - name: Aplicar actualizaciones de seguridad automáticamente en Ubuntu
       ansible.builtin.command:
         cmd: unattended-upgrade -d
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_distribution == "Debian"
 
     - name: Instalar actualizaciones de seguridad en CentOS/RHEL 7
       yum:
