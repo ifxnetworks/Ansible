@@ -1,0 +1,28 @@
+---
+- name: Verificar actualizaciones en Ubuntu, CentOS y RHEL
+  hosts: all
+  become: yes
+  tasks:
+    - name: Verificar actualizaciones en Ubuntu
+      ansible.builtin.command: apt list --upgradable
+      register: updates
+      when: ansible_facts['os_family'] == "Debian"
+      changed_when: false
+
+    - name: Verificar actualizaciones en CentOS/RHEL 7 & 8 (usando yum)
+      ansible.builtin.command: yum check-update
+      register: updates
+      when: ansible_facts['os_family'] == "RedHat" and (ansible_facts['distribution_major_version'] | int) < 9
+      changed_when: false
+      failed_when: updates.rc > 1
+
+    - name: Verificar actualizaciones en CentOS/RHEL 9 (usando dnf)
+      ansible.builtin.command: dnf check-update
+      register: updates
+      when: ansible_facts['os_family'] == "RedHat" and (ansible_facts['distribution_major_version'] | int) >= 9
+      changed_when: false
+      failed_when: updates.rc > 1
+
+    - name: Mostrar actualizaciones
+      ansible.builtin.debug:
+        msg: "{{ updates.stdout_lines }}"
