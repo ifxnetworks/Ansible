@@ -25,4 +25,4 @@
 
     - name: Mostrar actualizaciones
       ansible.builtin.debug:
-        msg: "{{ updates_ubuntu.stdout_lines if updates_ubuntu is defined else updates_centos_rhel.stdout_lines if updates_centos_rhel is defined else updates_centos_rhel9.stdout_lines }}"
+      msg: "{{ updates_ubuntu.stdout_lines | default([]) if updates_ubuntu is defined else (updates_centos_rhel.stdout_lines | default([]) if updates_centos_rhel is defined else (updates_centos_rhel9.stdout_lines | default([]))) }}"
