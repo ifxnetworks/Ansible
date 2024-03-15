@@ -1,6 +1,6 @@
 ---
 - name: Reiniciar Fedora Security Onion
-  hosts: fedora_hosts
+  hosts: security_onion
   become: yes  # Necesario para obtener privilegios de root.
 
   tasks:
