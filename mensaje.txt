@@ -1,0 +1,20 @@
+El trabajo '{{ job_friendly_name }}' con ID #{{ job.id }} se ha ejecutado en el nodo '{{ job.execution_node }}' y ha tomado {{ job.elapsed }} segundos en completarse. Aquí algunos detalles adicionales:
+- Estado del trabajo: {{ job.status }}
+- Iniciado en: {{ job.started }}
+- Finalizado en: {{ job.finished }}
+- Playbook ejecutado: {{ job.playbook }}
+- Nodo controlador: {{ job.controller_node }}
+- Ambiente virtual personalizado: {{ job.custom_virtualenv }}
+- Descripción del trabajo: '{{ job.description }}'
+- Si el trabajo ha fallado: {{ job.failed }}
+Este trabajo fue parte de la plantilla de trabajo '{{ job.summary_fields.job_template.name }}', asociada al inventario '{{ job.summary_fields.inventory.name }}' y al proyecto '{{ job.summary_fields.project.name }}'.
+
+Metadata del trabajo:
+- ID del Proyecto: {{ job.summary_fields.project.id }}
+- Nombre del Proyecto: {{ job.summary_fields.project.name }}
+- ID del Inventario: {{ job.summary_fields.inventory.id }}
+- Nombre del Inventario: {{ job.summary_fields.inventory.name }}
+- ID de la Plantilla de Trabajo: {{ job.summary_fields.job_template.id }}
+- Nombre de la Plantilla de Trabajo: {{ job.summary_fields.job_template.name }}
+
+Datos adicionales pueden ser incluidos en la notificación utilizando la notación específica y accediendo a otros atributos del trabajo según sea necesario.
