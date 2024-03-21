@@ -1,0 +1,40 @@
+---
+- name: Verificar actualizaciones en Ubuntu, CentOS y RHEL
+  hosts: all
+  become: yes
+  tasks:
+    - name: Verificar actualizaciones en Ubuntu
+      ansible.builtin.command: apt list --upgradable
+      register: updates_ubuntu
+      when: ansible_facts['os_family'] == "Debian"
+      changed_when: false
+
+    - name: Verificar actualizaciones en CentOS/RHEL 7 & 8 (usando yum)
+      ansible.builtin.command: yum check-update
+      register: updates_centos_rhel
+      when: ansible_facts['os_family'] == "RedHat" and (ansible_facts['distribution_major_version'] | int) < 9
+      changed_when: false
+      failed_when: updates_centos_rhel.rc > 1 and updates_centos_rhel.rc != 100
+
+    - name: Verificar actualizaciones en CentOS/RHEL 9 (usando dnf)
+      ansible.builtin.command: dnf check-update
+      register: updates_centos_rhel9
+      when: ansible_facts['os_family'] == "RedHat" and (ansible_facts['distribution_major_version'] | int) >= 9
+      changed_when: false
+      failed_when: updates_centos_rhel9.rc not in [0, 100, 1]
+      ignore_errors: yes
+
+    - name: Mostrar actualizaciones de Ubuntu
+      ansible.builtin.debug:
+        msg: "{{ updates_ubuntu.stdout_lines | default([]) }}"
+      when: updates_ubuntu is defined and updates_ubuntu.stdout_lines is defined
+
+    - name: Mostrar actualizaciones de CentOS/RHEL 7 & 8
+      ansible.builtin.debug:
+        msg: "{{ updates_centos_rhel.stdout_lines | default([]) }}"
+      when: updates_centos_rhel is defined and updates_centos_rhel.stdout_lines is defined
+
+    - name: Mostrar actualizaciones de CentOS/RHEL 9
+      ansible.builtin.debug:
+        msg: "{{ updates_centos_rhel9.stdout_lines | default([]) }}"
+      when: updates_centos_rhel9 is defined and updates_centos_rhel9.stdout_lines is defined
